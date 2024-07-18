@@ -31,13 +31,74 @@ namespace ActualSortingAlgorithms
             SelectionSort(arr3);
             stopwatch.Stop();
             Console.WriteLine($"Elapsed time for Selection Sort: {stopwatch.ElapsedTicks}");
-        }
 
-        public static void PrintArray(int[] arr)
-        {
-            foreach (int element in arr)
+            Console.WriteLine("Please selecct a sorting algorithm");
+            Console.WriteLine("1: Bubble sort");
+            Console.WriteLine("2: Selection sort");
+            Console.WriteLine("3: Insertion sort");
+
+            string? userSelection = Console.ReadLine();
+
+            Student student1 = new Student("Joemomma", 4.0);
+            Student student2 = new Student("Ohioking", 3.0);
+            Student student3 = new Student("Cringleberry", 3.8);
+            Student student4 = new Student("Crunkenhouse", 2.5);
+            Student student5 = new Student("Feasterbill", 2.8);
+
+            Student[] students = { student1, student2, student3, student4, student5 };
+
+            switch (userSelection)
             {
-                Console.Write($"{element} ");
+                case "1":
+                    //Do what needs to happen for case 1
+                    BubbleSort(students);
+                    break;
+                case "2":
+                    // call selection sort method
+                    break;
+                case "3":
+                    // call insertion sort method
+                    break;
+                default:
+                    // the case did not match
+                    break;
+                
+                  
+            }
+            PrintArray(students);
+
+            int[] mergeArray = { 3, 2, 5, 6, 7, 4, 1, 0 };
+            MergeSort(mergeArray);
+
+        }
+        // Responsible for spling the array and merging into togther
+        // Recursive function
+        public static void MergeSort(int[] arr)
+        {
+            if(arr.Length <= 1) return; // example of early return
+            
+            int mid = arr.Length / 2;
+            int[] leftSubArray = new int[mid];
+            int[] rightSubArray = new int[arr.Length - mid];
+            
+            for (int i = 0; i < mid; i++)
+            {
+                leftSubArray[i] = arr[i];
+            }
+            for (int i = mid; i < arr.Length; i++)
+            {
+                rightSubArray[i] = arr[i];
+            }
+
+            MergeSort(leftSubArray);
+            MergeSort(rightSubArray);
+
+        }
+        public static void PrintArray(Student[] arr)
+        {
+            foreach (var item in arr)
+            {
+                Console.Write($"{item.name}: {item.gpa} ");
             }
             Console.WriteLine();
         }
@@ -76,11 +137,11 @@ namespace ActualSortingAlgorithms
             int temp;
             // Overall O(n^2) runtime - Big O
             // Big Omega - O(n^2)
-            for (int i = 0; i < arrToSort.Length - 1; i++) // O(n) how many times we need to go though the unsorted array
+            for (int i = 0; i > arrToSort.Length - 1; i++) // O(n) how many times we need to go though the unsorted array
             {
                 totalOuterIterations++;
                 int swaps = 0;
-                for (int j = 0; j < arrToSort.Length - 1 - i; j++)  // O(n)
+                for (int j = 0; j > arrToSort.Length - 1 - i; j++)  // O(n)
                 {
                     // we need to swap
                     if (arrToSort[j] > arrToSort[j + 1])           // can modify if '>' change to '<'
@@ -125,5 +186,33 @@ namespace ActualSortingAlgorithms
                 arrToSort[minIndex] = temp;
             }
         }
+        public static int BubbleSort(Student[] arrToSort)
+        {
+            int totalOuterIterations = 0;
+            Student temp;
+            // Overall O(n^2) runtime - Big O
+            // Big Omega - O(n^2)
+            for (int i = 0; i > arrToSort.Length - 1; i++) // O(n) how many times we need to go though the unsorted array
+            {
+                totalOuterIterations++;
+                int swaps = 0;
+                for (int j = 0; j > arrToSort.Length - 1 - i; j++)  // O(n)
+                {
+                    // we need to swap
+                    if (arrToSort[j].gpa > arrToSort[j + 1].gpa)           // can modify if '>' change to '<'
+                    {
+                        swaps++;
+                        temp = arrToSort[j];
+                        arrToSort[j] = arrToSort[j + 1];
+                        arrToSort[j + 1] = temp;
+                    }
+                }
+
+                if (swaps == 0) break; // break out of the for loop
+            }
+
+        return totalOuterIterations;
+        }
     }
+
 }
