@@ -75,25 +75,66 @@ namespace ActualSortingAlgorithms
         // Recursive function
         public static void MergeSort(int[] arr)
         {
-            if(arr.Length <= 1) return; // example of early return
-            
+            // Base case: if the array has 1 or no elements, it's already sorted
+            if (arr.Length <= 1) return;
+
+            // Find the middle index of the array
             int mid = arr.Length / 2;
+
+            // Create subarrays for the left and right halves of the original array
             int[] leftSubArray = new int[mid];
             int[] rightSubArray = new int[arr.Length - mid];
-            
+
+            // Copy elements to the left subarray
             for (int i = 0; i < mid; i++)
             {
                 leftSubArray[i] = arr[i];
             }
+
+            // Copy elements to the right subarray
             for (int i = mid; i < arr.Length; i++)
             {
-                rightSubArray[i] = arr[i];
+                rightSubArray[i - mid] = arr[i];
             }
 
+            // Recursively sort the left and right subarrays
             MergeSort(leftSubArray);
             MergeSort(rightSubArray);
 
+            // Merge the sorted subarrays back into the original array
+            Merge(arr, leftSubArray, rightSubArray);
         }
+
+        private static void Merge(int[] arr, int[] leftSubArray, int[] rightSubArray)
+        {
+            int left = 0, right = 0, merged = 0;
+
+            // Merge elements from left and right subarrays in sorted order
+            while (left < leftSubArray.Length && right < rightSubArray.Length)
+            {
+                if (leftSubArray[left] <= rightSubArray[right])
+                {
+                    arr[merged++] = leftSubArray[left++];
+                }
+                else
+                {
+                    arr[merged++] = rightSubArray[right++];
+                }
+            }
+
+            // Copy any remaining elements from the left subarray
+            while (left < leftSubArray.Length)
+            {
+                arr[merged++] = leftSubArray[left++];
+            }
+
+            // Copy any remaining elements from the right subarray
+            while (right < rightSubArray.Length)
+            {
+                arr[merged++] = rightSubArray[right++];
+            }
+        }
+
         public static void PrintArray(Student[] arr)
         {
             foreach (var item in arr)
