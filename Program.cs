@@ -7,7 +7,7 @@ namespace ActualSortingAlgorithms
     {
         static void Main(string[] args)
         {
-            int[] arr1 = { 90, 3, 2, 56, 32, 34, 65, 68, 76, 1, 0, 100, 8 };
+            /*int[] arr1 = { 90, 3, 2, 56, 32, 34, 65, 68, 76, 1, 0, 100, 8 };
             int[] arr2 = { 90, 3, 2, 56, 32, 34, 65, 68, 76, 1, 0, 100, 8 };
             int[] arr3 = { 90, 3, 2, 56, 32, 34, 65, 68, 76, 1, 0, 100, 8 };
             int[] arrSorted1 = { 0, 1, 2, 3, 8, 32, 34, 56, 65, 68, 76, 90, 100 };
@@ -36,6 +36,7 @@ namespace ActualSortingAlgorithms
             Console.WriteLine("1: Bubble sort");
             Console.WriteLine("2: Selection sort");
             Console.WriteLine("3: Insertion sort");
+            Console.WriteLine("4: Merge sort");
 
             string? userSelection = Console.ReadLine();
 
@@ -59,17 +60,72 @@ namespace ActualSortingAlgorithms
                 case "3":
                     // call insertion sort method
                     break;
+                case "4":
+                    // call merge sort method
+                    MergeSort(arr1);
+                    break;
                 default:
                     // the case did not match
                     break;
+
                 
-                  
+
+
             }
             PrintArray(students);
 
             int[] mergeArray = { 3, 2, 5, 6, 7, 4, 1, 0 };
+            MergeSort(mergeArray);*/
+            int[] mergeArray = { 3, 2, 5, 6, 7, 4, 1, 0 };
             MergeSort(mergeArray);
+            QuickSort(arr1);
+            Console.WriteLine(mergeArray);
 
+        }
+
+        /// <summary>
+        /// Utilizes a quicksort algorithm to sort a passed in array
+        /// </summary>
+        /// <param name="arr">the array which should be sorted</param>
+        /// <param name="low">the smallwer index of the (sub)array</param>
+        /// <param name="high">the larger index of the (sub)array</param>
+        public static void QuickSort(int[] arr, int low, int high)
+        {
+            if (low < high)
+            {
+                //partition return pivot to us
+                int pivotIndex = Partition(arr, low, high);
+                //call quicksort again on the new subarrays passed on pivots position
+                QuickSort(arr, low, pivotIndex - 1);
+                QuickSort(arr, pivotIndex + 1, high);
+            }
+        }
+
+        public static int Partition(int[] arr, int low, int high)
+        {
+            int pivot = arr[high]; //setting pivot as the last value
+            int i = low - 1;
+            
+            for (int j = low; j < high; j++)
+            {
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    //swap - could also move this into a helper method
+                    Swap(arr, i, j);
+                    
+                }
+            }
+            Swap(arr, ++i, high);
+            return i;
+      
+        }
+
+        public static void Swap(int[] arr, int i, int j)
+        {
+            int temp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = temp;
         }
         // Responsible for spling the array and merging into togther
         // Recursive function
@@ -105,7 +161,7 @@ namespace ActualSortingAlgorithms
             Merge(arr, leftSubArray, rightSubArray);
         }
 
-        private static void Merge(int[] arr, int[] leftSubArray, int[] rightSubArray)
+        public static void Merge(int[] arr, int[] leftSubArray, int[] rightSubArray)
         {
             int left = 0, right = 0, merged = 0;
 
@@ -123,6 +179,8 @@ namespace ActualSortingAlgorithms
             }
 
             // Copy any remaining elements from the left subarray
+            // while the left sub arr and right sub arr has vakues
+            // we will eval which value is less and make assessments
             while (left < leftSubArray.Length)
             {
                 arr[merged++] = leftSubArray[left++];
@@ -135,6 +193,7 @@ namespace ActualSortingAlgorithms
             }
         }
 
+        
         public static void PrintArray(Student[] arr)
         {
             foreach (var item in arr)
